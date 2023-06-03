@@ -159,7 +159,7 @@ impl Template {
         );
         self
     }
-    
+
     pub fn add_url(&mut self, url: &str) -> &mut Self {
         self.add_component(
             ComponentType::Button,
@@ -169,7 +169,7 @@ impl Template {
         );
         self
     }
-    
+
     fn add_component(
         &mut self,
         component_type: ComponentType,
@@ -191,42 +191,40 @@ impl Template {
                 payload: text,
             }),
         };
-    
+
         let component = Component {
             component_type,
             parameters: vec![parameter],
             sub_type,
             index: None,
         };
-    
+
         self.components.push(component);
     }
-    
+
     pub fn to_json(&self) -> String {
         serde_json::to_string(&self).unwrap()
     }
 }
 
 trait ParameterInterface: Serialize {
-fn as_parameter(&self) -> &dyn erased_serde::Serialize;
+    fn as_parameter(&self) -> &dyn erased_serde::Serialize;
 }
 
 impl ParameterInterface for Parameter {
-fn as_parameter(&self) -> &dyn erased_serde::Serialize {
-self
-}
+    fn as_parameter(&self) -> &dyn erased_serde::Serialize {
+        self
+    }
 }
 
 impl ParameterInterface for ImageParameter {
-fn as_parameter(&self) -> &dyn erased_serde::Serialize {
-self
-}
+    fn as_parameter(&self) -> &dyn erased_serde::Serialize {
+        self
+    }
 }
 
 impl ParameterInterface for ButtonPayloadParameter {
-fn as_parameter(&self) -> &dyn erased_serde::Serialize {
-self
+    fn as_parameter(&self) -> &dyn erased_serde::Serialize {
+        self
+    }
 }
-}
-
-    
