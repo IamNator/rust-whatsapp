@@ -1,4 +1,4 @@
-# rust-whatsapp
+# rust-whatsapp [WIP]
 Rust implementation of go-whatsapp
 
 
