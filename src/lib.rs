@@ -1,13 +1,8 @@
-pub mod calls;
-
-use reqwest::{Client, Response, StatusCode};
+use calls::{APICaller, Caller};
+use constants::{DEFAULT_API_URL, DEFAULT_API_VERSION};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use std::collections::HashMap;
-
-const DEFAULT_API_URL: &str = "https://api.whatsapp.com";
-const DEFAULT_RATE_LIMIT: usize = 200;
-const DEFAULT_TIMEOUT: u64 = 3;
+use template::Template;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct APIErrorData {
@@ -102,39 +97,6 @@ struct Text<'a> {
     body: &'a str,
 }
 
-struct APICaller {
-    client: Client,
-}
-
-impl APICaller {
-    async fn post(
-        &self,
-        url: &str,
-        body: Vec<u8>,
-        headers: HashMap<&str, &str>,
-    ) -> Result<APIResponse, reqwest::Error> {
-        let response = self
-            .client
-            .post(url)
-            .body(body)
-            .headers(headers)
-            .send()
-            .await?;
-
-        let status_code = response.status();
-        let api_response: APIResponse = response.json().await?;
-
-        if status_code.is_success() {
-            Ok(api_response)
-        } else {
-            Err(reqwest::Error::new(
-                reqwest::Error::Status(status_code),
-                Some(Box::new(api_response)),
-            ))
-        }
-    }
-}
-
 struct Client<'a> {
     phone_number_id: &'a str,
     access_token: &'a str,
@@ -147,9 +109,9 @@ struct Client<'a> {
 impl<'a> Client<'a> {
     fn new(phone_number_id: &'a str, access_token: &'a str, opts: &[Opt]) -> Self {
         let base_url = DEFAULT_API_URL;
-        let api_version = APIVersion::V15;
-        let api_caller = APICaller {
-            client: Client::new(phone_number_id, access_token, opts),
+        let api_version = DEFAULT_API_VERSION;
+        let api_caller = Caller {
+            client: reqwest::Client::new(),
         };
 
         let mut client = Client {

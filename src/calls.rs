@@ -12,11 +12,11 @@ pub trait APICaller {
     ) -> Result<(T, u16), Box<dyn Error>>;
 }
 
-pub struct ApiCaller {
+pub struct Caller {
     client: Client,
 }
 
-impl APICaller for ApiCaller {
+impl APICaller for Caller {
     fn post<T: DeserializeOwned>(
         &self,
         url: &str,
