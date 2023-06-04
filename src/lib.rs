@@ -1,5 +1,5 @@
 use calls::{APICaller, Caller};
-use constants::{DEFAULT_API_URL, DEFAULT_API_VERSION};
+use constants::{APIVersion, DEFAULT_API_URL, DEFAULT_API_VERSION};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use template::Template;
@@ -151,7 +151,7 @@ impl<'a> Client<'a> {
 
         let body = serde_json::to_vec(&msg)?;
 
-        self.api_caller.post(&url, body, headers).await
+        self.api_caller.post(&url, &body, headers).await
     }
 
     async fn send_text(&self, to: &'a str, text: &'a str) -> Result<APIResponse, reqwest::Error> {

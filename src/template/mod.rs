@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use std::error::Error;
-use std::str::FromStr;
 use std::string::ToString;
+// regex
+
+mod language_code;
+
+use language_code::language_code::LanguageCode;
 
 // https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages/#template-messages
 
@@ -207,8 +210,30 @@ impl Template {
     }
 }
 
-trait ParameterInterface: Serialize {
-    fn as_parameter(&self) -> &dyn erased_serde::Serialize;
+trait ParameterSerialize {
+    fn serialize(&self);
+}
+
+trait ParameterInterface: ParameterSerialize {
+    fn as_parameter(&self) -> &dyn Serialize;
+}
+
+impl ParameterSerialize for Parameter {
+    fn serialize(&self) {
+        serde_json::to_string(self).unwrap();
+    }
+}
+
+impl ParameterSerialize for ImageParameter {
+    fn serialize(&self) {
+        serde_json::to_string(self).unwrap();
+    }
+}
+
+impl ParameterSerialize for ButtonPayloadParameter {
+    fn serialize(&self) {
+        serde_json::to_string(self).unwrap();
+    }
 }
 
 impl ParameterInterface for Parameter {

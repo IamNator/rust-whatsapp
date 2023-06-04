@@ -12,6 +12,7 @@ serde_json = "1.0"
 template = { path = "src/template" }
 calls = { path = "src/calls" }
 constants = { path = "src/constants" }
+erased-serde = "0.3.25"
 
 [[bin]]
 name = "template"

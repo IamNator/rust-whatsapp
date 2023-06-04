@@ -11,8 +11,8 @@ fn main() {
 
     template.add_header("Daniel");
     template.add_body("Daniel");
-    template.add_button("3243");
-    template.add_button("30");
+    template.add_body("3243");
+    template.add_body("30");
 
 }
    
