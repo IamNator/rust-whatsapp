@@ -21,3 +21,7 @@ path = "example/template/main.rs"
 [lib]
 name = "whatsapp"
 path = "src/lib.rs"
+
+[lib]
+name = "template"
+path = "src/template"
